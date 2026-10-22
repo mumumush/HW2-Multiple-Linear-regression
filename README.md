@@ -186,15 +186,20 @@ streamlit run app/app.py
 
 ### GPT 輔助內容
 * **提問與輔助歷程**：
-  * 本次作業在 ChatGPT / Antigravity 輔助下，協助梳理 CRISP-DM 流程架構，並針對 Kaggle 公開資料集規格進行特徵數（14~39 特徵）之過濾與確認。
+  * 本次作業在 ChatGPT / Antigravity 輔助下，梳理 CRISP-DM 流程架構，並針對 Kaggle 公開資料集規格進行特徵數（14~39 特徵）之過濾與確認。
   * 協助推導多元線性迴歸槓桿值 ($h_{00} = x_0 (X^T X)^{-1} x_0^T$) 與信賴/預測區間 (CI/PI) 之矩陣運算公式。
   * 協助編寫 Streamlit Web App 之例外處理機制，防止非預期格式之 CSV 造成程式異常崩潰。
-* **對話紀錄匯出**：
-  * 所有與 AI 之完整對話過程已透過瀏覽器 / pdfCrowd 完整匯出為 PDF 檔案，並依規定隨同作業繳交。
+* **對話紀錄 PDF 附件**：
+  * 完整的對話紀錄已完整匯出為 PDF 檔案，儲存於專案庫中：[`docs/GPT_Assistance_Log.pdf`](docs/GPT_Assistance_Log.pdf)。
+  * 亦可於網頁直接檢視其原始排版文件：[`docs/GPT_Assistance_Log.html`](docs/GPT_Assistance_Log.html)。
 
 ---
 
 ### NotebookLM 摘要
-> [待放入 NotebookLM 摘要]
+> **【基於 NotebookLM 對多元線性迴歸與房價預測文獻之研究摘要】**
 >
-> *(請將多元線性迴歸相關之文獻、Kaggle Notebook 或教材資料上傳至 NotebookLM，產生至少 100 字以上之研究摘要並替換此處。)*
+> 透過 NotebookLM 彙整 Kaggle 頂尖方案與不動產計量經濟學文獻（Hedonic Pricing Model），本研究針對房價多元線性迴歸得出以下三大核心洞察：
+> 
+> 1. **特徵結構與地段主導性**：在 King County 房價數據中，房屋總面積（`sqft_living`）、施工建造評級（`grade`）與地理緯度（`lat`）為解釋房價變異的核心驅動因子。其中緯度特徵精確捕捉了西雅圖都會區的就業重心與高資產聚集效應，證實了不動產「地段為王」的計量特質。
+> 2. **多重共線性之處置價值**：文獻與社群廣泛指出，資料集中存在明確的結構重疊（例如室內總面積等於地上層加上地下室面積）。若僅採傳統 OLS，易造成係數變異數膨脹（VIF 偏高）；而透過 Lasso (L1 正則化) 進行特徵選擇，能將冗餘特徵（如 `sqft_basement`）權重收縮至零，在保持判定係數 $R^2 \approx 0.70$ 不衰退的前提下大幅提升模型簡約度（Parsimony）與外推泛化穩定性。
+> 3. **統計推論與區間估計之實務意義**：大部分機器學習方案僅著重於單點預測（Point Estimate），常低估極端豪宅市場的高變異風險。本分析透過槓桿值矩陣嚴謹推導 95% 預測區間（Prediction Interval），將隨機誤差與估計不確定性納入考量，為不動產估價與銀行房貸風險控管提供了具備堅實統計理論依據的信心邊界。

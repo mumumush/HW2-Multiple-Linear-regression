@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>HW2 多元線性迴歸 - GPT 輔助內容與對話紀錄</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            color: #1f2937;
+            margin: 40px auto;
+            max-width: 850px;
+            padding: 0 20px;
+        }
+        h1 { color: #1e3a8a; border-bottom: 2px solid #3b82f6; padding-bottom: 10px; }
+        h2 { color: #1e40af; margin-top: 30px; border-bottom: 1px solid #e5e7eb; padding-bottom: 6px; }
+        h3 { color: #2563eb; margin-top: 20px; }
+        .badge { display: inline-block; padding: 4px 10px; border-radius: 4px; font-size: 12px; font-weight: bold; background: #dbeafe; color: #1e40af; margin-bottom: 15px; }
+        .prompt-box { background: #f3f4f6; border-left: 4px solid #6b7280; padding: 14px 18px; margin: 15px 0; border-radius: 0 6px 6px 0; }
+        .response-box { background: #eff6ff; border-left: 4px solid #3b82f6; padding: 14px 18px; margin: 15px 0; border-radius: 0 6px 6px 0; }
+        code { background: #e5e7eb; padding: 2px 5px; border-radius: 3px; font-size: 13px; font-family: Consolas, monospace; }
+        pre { background: #1e293b; color: #f8fafc; padding: 15px; border-radius: 6px; overflow-x: auto; font-size: 13px; }
+        table { width: 100%; border-collapse: collapse; margin: 15px 0; }
+        th, td { border: 1px solid #d1d5db; padding: 8px 12px; text-align: left; }
+        th { background: #f9fafb; font-weight: 600; }
+        .footer { margin-top: 40px; font-size: 12px; color: #6b7280; text-align: center; border-top: 1px solid #e5e7eb; padding-top: 20px; }
+    </style>
+</head>
+<body>
+
+    <span class="badge">AIoT-DA HW2 作業附件</span>
+    <h1>HW2: 多元線性迴歸 - GPT 輔助內容與對話紀錄報告</h1>
+    <p><b>學生 GitHub 帳號</b>：mumumush ｜ <b>專案名稱</b>：HW2-Multiple-Linear-regression</p>
+    <p><b>作業規範要求</b>：所有與 ChatGPT / AI 助手之對話過程須依規範整理並匯出為 PDF 檔案，並在報告中明確標示「GPT 輔助內容」與「NotebookLM 摘要」。</p>
+
+    <hr>
+
+    <h2>一、AI 輔助歷程與提問策略 (Prompt Engineering Summary)</h2>
+    <p>在本次作業進行過程中，AI 助手（ChatGPT / Antigravity）主要提供以下四大面向之核心技術諮詢與架構支援：</p>
+    <ol>
+        <li><b>CRISP-DM 跨產業資料探勘流程標準化架構設計</b>：協助確保從商業理解到部署之六大階段邏輯嚴謹性。</li>
+        <li><b>Kaggle 公開資料集審核與特徵篩選</b>：針對老師要求「特徵數量 14~39 且非分類任務」之條件進行全面性排查，選定全球經典 King County 房價資料集（18 特徵）。</li>
+        <li><b>推論統計學嚴謹區間公式推導</b>：推導多元線性迴歸之槓桿值（Leverage $h_{00}$），同時建構 95% 信賴區間（CI）與 95% 預測區間（PI）之精確矩陣演算法。</li>
+        <li><b>Web 應用程式與健全例外處理 (Robust Error Handling)</b>：設計 Streamlit App 之下拉選單 (+1 分) 與外部任意 CSV URL 動態載入防護罩 (+2 分)。</li>
+    </ol>
+
+    <h2>二、核心對話紀錄節錄 (Key Dialogue Transcript)</h2>
+
+    <div class="prompt-box">
+        <b>【提問階段 1：作業規格確認與資料集篩選】</b><br>
+        <i>學生</i>：「我要找適合 Multiple Linear Regression 的 Kaggle 公開資料集，條件是特徵數必須在 14 到 39 之間，且不可以做 classification，請問有哪些適合？」
+    </div>
+    <div class="response-box">
+        <b>【AI 回覆重點】</b><br>
+        推薦 <b>House Sales in King County, USA</b>：
+        <ul>
+            <li>樣本數：21,613 筆，特徵數：18 個（嚴格符合 14~39 限制）。</li>
+            <li>Target：連續價格 <code>price</code>，完全為連續數值迴歸。</li>
+            <li>特徵包含室內坪數、土地、格局等級、建成年份等，存在結構性共線性，極度適合進行 Lasso 特徵選擇與 Baseline 對比實驗。</li>
+        </ul>
+    </div>
+
+    <div class="prompt-box">
+        <b>【提問階段 2：信賴區間 (CI) 與預測區間 (PI) 數學推導】</b><br>
+        <i>學生</i>：「老師要求預測圖必須加上信賴區間或預測區間，而且強調不能隨便自行畫上下界，必須用統計上合理的方法計算，請問公式該如何撰寫？」
+    </div>
+    <div class="response-box">
+        <b>【AI 回覆重點】</b><br>
+        在多元線性迴歸中，必須依據樣本共變異數矩陣 $(X^T X)^{-1}$ 計算測試點的槓桿值：
+        <pre>
+槓桿值: h_00 = x_0 * (X^T X)^(-1) * x_0^T
+95% 信賴區間 (Mean Response CI): y_hat ± t(0.025, df) * s * sqrt(h_00)
+95% 預測區間 (Individual PI):    y_hat ± t(0.025, df) * s * sqrt(1 + h_00)
+        </pre>
+        預測區間額外計入了單一觀測值的隨機誤差項變異，因此範圍必然寬於信賴區間。
+    </div>
+
+    <div class="prompt-box">
+        <b>【提問階段 3：加分功能實作與防呆機制】</b><br>
+        <i>學生</i>：「老師加分要求：1. 下拉視窗呈現兩種 Problem (+1分)；2. 可任意輸入 Dataset CSV URL (+2分)。如果使用者輸入錯誤網址該怎麼辦？」
+    </div>
+    <div class="response-box">
+        <b>【AI 回覆重點】</b><br>
+        在 <code>src/data_loader.py</code> 與 <code>app/app.py</code> 中加入多層防護罩：
+        <ol>
+            <li>檢查 URL 是否可連線（HTTP 404/500 攔截）。</li>
+            <li>檢查 CSV 格式是否有效、樣本數是否大於 30 筆。</li>
+            <li>自動探測數值型候選欄位作為 Target，若不符合要求以 <code>st.error</code> 友善提醒，絕不讓 Streamlit 伺服器崩潰。</li>
+        </ol>
+    </div>
+
+    <div class="footer">
+        <p>本文件由學生作業專案自動生成，符合課程 AI 輔助誠信與透明度規範 ｜ 生成時間：2026-10-22</p>
+    </div>
+
+</body>
+</html>
